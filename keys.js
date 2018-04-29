@@ -14,3 +14,7 @@ exports.spotify = {
 
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
+
+var newvariable1
+var newvariable2
+var newvariable2
