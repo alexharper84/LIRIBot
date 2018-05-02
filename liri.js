@@ -69,7 +69,6 @@ var callSpotifyAPI = function(songName) {
         console.log("album: " + songs[i].album.name);
         console.log("release date: " + songs[i].album.release_date);
         console.log("album type: " + songs[i].album.album_type);
-        console.log("direct link to song: " + songs[i].album.href);
         console.log("preview song: " + songs[i].preview_url);
         console.log("----------------------------------------------------");
       }
@@ -77,16 +76,47 @@ var callSpotifyAPI = function(songName) {
   );
 };
 // =====================================
+// Function for running a OMDB Search
+// _____________________________________
+var callOMDBAPI = function(movieName) {
+  if (movieName === undefined) {
+    movieName = "Mr Nobody";
+  }
+  var urlHit =
+    "http://www.omdbapi.com/?t=" +
+    movieName +
+    "&y=&plot=full&tomatoes=true&apikey=trilogy";
+  request(urlHit, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var jsonData = JSON.parse(body);
+      console.log("Title: " + jsonData.Title);
+      console.log("Year: " + jsonData.Year);
+      console.log("Rated: " + jsonData.Rated);
+      console.log("IMDB Rating: " + jsonData.imdbRating);
+      console.log("Country: " + jsonData.Country);
+      console.log("Language: " + jsonData.Language);
+      console.log("Plot: " + jsonData.Plot);
+      console.log("Actors: " + jsonData.Actors);
+      console.log("Rotton Tomatoes Rating: " + jsonData.Ratings[1].Value);
+    }
+  });
+};
+// =====================================
 // Function for determining which command is executed
 // _____________________________________
 var userCommand = function(caseData, functionData) {
   switch (caseData) {
+    // use twitter api
     case "my-tweets":
     callTwitterAPI();
     break;
-
+    // use spotify api
     case "spotify-this-song":
     callSpotifyAPI(functionData);
+    break;
+    // use omdb api
+    case "movie-this":
+    callOMDBAPI(functionData);
     break;
 
     default:
