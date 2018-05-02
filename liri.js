@@ -1,27 +1,24 @@
 // _____________________________________
 // DEPENDENCIES
 // =====================================
-// _____________________________________
 // Read and set environment variables
-// _____________________________________
 require("dotenv").config();
-// _____________________________________
 // Import the Twitter NPM package.
-// _____________________________________
 var Twitter = require("twitter");
+// Import the node-spotify-api NPM package.
+var Spotify = require("node-spotify-api");
 // Import the API keys
 var keys = require("./keys");
-// _____________________________________
 // Import the request npm package.
-// _____________________________________
 var request = require("request");
+// Initialize the spotify API client with keys
+var spotify = new Spotify(keys.spotify);
 // _____________________________________
 // FUNCTIONS
 // =====================================
-// _____________________________________
 // Function for running a Twitter Search
 // _____________________________________
-var callTwitterApi = function() {
+var callTwitterAPI = function() {
   var client = new Twitter(keys.twitter);
   var params = {
     screen_name: "bootcampstuden1"
@@ -40,26 +37,69 @@ var callTwitterApi = function() {
     }
   });
 };
+// =====================================
+// Function for running a Spotify Search
 // _____________________________________
+// grabs artist name
+var getArtistNames = function(artist) {
+  return artist.name;
+};
+// Function for running a Spotify search
+var callSpotifyAPI = function(songName) {
+  if (songName === undefined) {
+    songName = "1999";
+  }
+  spotify.search(
+    {
+      type: "track",
+      query: songName
+    },
+    function(err, data) {
+      if (err) {
+        console.log("Error occurred: " + err);
+        return;
+      }
+      var songs = data.tracks.items;
+
+      for (var i = 0; i < songs.length; i++) {
+        console.log(i);
+        console.log("artist: " + songs[i].artists.map(getArtistNames));
+        console.log("song title: " + songs[i].name);
+        console.log("track number: " + songs[i].track_number);
+        console.log("album: " + songs[i].album.name);
+        console.log("release date: " + songs[i].album.release_date);
+        console.log("album type: " + songs[i].album.album_type);
+        console.log("direct link to song: " + songs[i].album.href);
+        console.log("preview song: " + songs[i].preview_url);
+        console.log("----------------------------------------------------");
+      }
+    }
+  );
+};
+// =====================================
 // Function for determining which command is executed
 // _____________________________________
 var userCommand = function(caseData, functionData) {
   switch (caseData) {
     case "my-tweets":
-      callTwitterApi();
-      break;
+    callTwitterAPI();
+    break;
+
+    case "spotify-this-song":
+    callSpotifyAPI(functionData);
+    break;
 
     default:
-      console.log("LIRI doesn't know that");
+    console.log("LIRI can't understand your nonsense!");
   }
 };
-// _____________________________________
-// Function which takes in command line arguments and executes correct function accordigly
+// =====================================
+// Function which takes in command line arguments and executes switch statement accordigly
 // _____________________________________
 var cmdLnArgs = function(argOne, argTwo) {
   userCommand(argOne, argTwo);
 };
-// _____________________________________
-// MAIN PROCESS
 // =====================================
+// this takes in user input and assigns them as arguments
+// _____________________________________
 cmdLnArgs(process.argv[2], process.argv[3]);
