@@ -21,7 +21,7 @@ var request = require("request");
 // _____________________________________
 // Function for running a Twitter Search
 // _____________________________________
-var getMyTweets = function() {
+var callTwitterApi = function() {
   var client = new Twitter(keys.twitter);
   var params = {
     screen_name: "bootcampstuden1"
@@ -43,10 +43,10 @@ var getMyTweets = function() {
 // _____________________________________
 // Function for determining which command is executed
 // _____________________________________
-var pick = function(caseData, functionData) {
+var userCommand = function(caseData, functionData) {
   switch (caseData) {
     case "my-tweets":
-      getMyTweets();
+      callTwitterApi();
       break;
 
     default:
@@ -56,10 +56,10 @@ var pick = function(caseData, functionData) {
 // _____________________________________
 // Function which takes in command line arguments and executes correct function accordigly
 // _____________________________________
-var runThis = function(argOne, argTwo) {
-  pick(argOne, argTwo);
+var cmdLnArgs = function(argOne, argTwo) {
+  userCommand(argOne, argTwo);
 };
 // _____________________________________
 // MAIN PROCESS
 // =====================================
-runThis(process.argv[2], process.argv[3]);
+cmdLnArgs(process.argv[2], process.argv[3]);
