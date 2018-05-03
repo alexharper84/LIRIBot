@@ -28,7 +28,7 @@ $ node liri.js spotify-this-song 'El Paso'
 $ node liri.js movie-this 'Snakes On A Plane'
 ```
 
-### The two previous commands can also run without an argument:
+### The two previous commands can also return data without user input:
 ```
 $ node liri.js spotify-this-song
 $ node liri.js movie-this
