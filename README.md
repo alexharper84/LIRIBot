@@ -1,6 +1,6 @@
 # LIRI bot ![CI status](https://img.shields.io/badge/build-beta-brightgreen.svg)
 
-LIRI bot is a Language Interpretation and Recognition Interface. LIRI will is a command line node app that takes in parameters and returns data.
+LIRI bot is a Language Interpretation and Recognition Interface. LIRI is a command line node app that takes in parameters and returns data.
 
 ## NPM Dependencies
 * dotenv
@@ -32,4 +32,4 @@ $ node liri.js movie-this 'Snakes On A Plane'
 ```
 $ node liri.js spotify-this-song
 $ node liri.js movie-this
-``` 
+```
