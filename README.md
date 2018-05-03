@@ -16,9 +16,11 @@ LIRI stands for Language Interpretation and Recognition Interface. LIRI bot is a
 
 
 ## Usage
-### The following two commands don't require user input:
+### The following commands run without user input:
 ```
 $ node liri.js my-tweets
+$ node liri.js spotify-this-song
+$ node liri.js movie-this
 $ node liri.js do-what-it-says
 ```
 
