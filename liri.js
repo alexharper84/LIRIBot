@@ -11,6 +11,8 @@ var Spotify = require("node-spotify-api");
 var keys = require("./keys");
 // Import the request npm package.
 var request = require("request");
+// Import the FS package for read/write.
+var fs = require("fs");
 // Initialize the spotify API client with keys
 var spotify = new Spotify(keys.spotify);
 // _____________________________________
@@ -80,12 +82,12 @@ var callSpotifyAPI = function(songName) {
 // _____________________________________
 var callOMDBAPI = function(movieName) {
   if (movieName === undefined) {
-    movieName = "Mr Nobody";
+    movieName = "snakes on a plane";
   }
   var urlHit =
-    "http://www.omdbapi.com/?t=" +
-    movieName +
-    "&y=&plot=full&tomatoes=true&apikey=trilogy";
+  "http://www.omdbapi.com/?t=" +
+  movieName +
+  "&y=&plot=full&tomatoes=true&apikey=trilogy";
   request(urlHit, function(error, response, body) {
     if (!error && response.statusCode === 200) {
       var jsonData = JSON.parse(body);
@@ -119,9 +121,26 @@ var userCommand = function(caseData, functionData) {
     callOMDBAPI(functionData);
     break;
 
+    case "do-what-it-says":
+    doWhatItSays();
+    break;
     default:
     console.log("LIRI can't understand your nonsense!");
   }
+};
+// =====================================
+// Function to take data from .txt file and send to another function when user enters "do-what-it-says"
+// _____________________________________
+var doWhatItSays = function () {
+  fs.readFile('random.txt', 'utf8', function(error, data){
+    console.log(data);
+    var dataArr = data.split(',');
+    if (dataArr.length ===  2) {
+      userCommand(dataArr[0], dataArr[1]);
+    } else if (dataArr.length === 1) {
+      userCommand(dataArr[0]);
+    }
+  });
 };
 // =====================================
 // Function which takes in command line arguments and executes switch statement accordigly
