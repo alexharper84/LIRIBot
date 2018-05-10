@@ -51,7 +51,7 @@ var callSpotifyAPI = function(songName) {
     {
       type: "track",
       query: songName,
-      limit: 15
+      limit: 30
     },
     function(err, data) {
       if (err) {
