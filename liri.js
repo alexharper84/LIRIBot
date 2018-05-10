@@ -42,10 +42,6 @@ var callTwitterAPI = function() {
 // =====================================
 // Function for running a Spotify Search
 // _____________________________________
-// grabs artist name
-var getArtistNames = function(artist) {
-  return artist.name;
-};
 // Function for running a Spotify search
 var callSpotifyAPI = function(songName) {
   if (songName === undefined) {
@@ -54,7 +50,8 @@ var callSpotifyAPI = function(songName) {
   spotify.search(
     {
       type: "track",
-      query: songName
+      query: songName,
+      limit: 15
     },
     function(err, data) {
       if (err) {
@@ -62,16 +59,15 @@ var callSpotifyAPI = function(songName) {
         return;
       }
       var songs = data.tracks.items;
-
       for (var i = 0; i < songs.length; i++) {
         console.log(i);
-        console.log("artist: " + songs[i].artists.map(getArtistNames));
-        console.log("song title: " + songs[i].name);
-        console.log("track number: " + songs[i].track_number);
-        console.log("album: " + songs[i].album.name);
-        console.log("release date: " + songs[i].album.release_date);
-        console.log("album type: " + songs[i].album.album_type);
-        console.log("preview song: " + songs[i].preview_url);
+        console.log("Artist name: " + songs[i].artists[0].name);
+        console.log("Song title: " + songs[i].name);
+        console.log("Track number: " + songs[i].track_number);
+        console.log("Album: " + songs[i].album.name);
+        console.log("Release date: " + songs[i].album.release_date);
+        console.log("Album type: " + songs[i].album.album_type);
+        console.log("Preview song: " + songs[i].preview_url);
         console.log("----------------------------------------------------");
       }
     }
